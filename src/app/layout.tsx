@@ -1,6 +1,10 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Link from "next/link";
+import AnnouncementBar from "@/components/announcement-bar";
+import SiteNav from "@/components/site-nav";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,10 +30,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {children}
-
-        {/* Google Analytics */}
         <GoogleAnalytics gaId="G-Z418CLJ6XH" />
+        {children}
       </body>
     </html>
   );

@@ -9,13 +9,13 @@ export const metadata: Metadata = {
 const completedProjects = [
   {
     title: "Peptides Calculator",
-    href: "https://wwww.peptidescalculator.app",
-    label: "/playlist/",
+    href: "https://www.peptidescalculator.app/",
+    label: "/application/",
   },
   {
     title: "My TRT App",
     href: "https://www.mytrt.app",
-    label: "/playlist/",
+    label: "/application/",
   },
 ];
 

@@ -1,3 +1,4 @@
+// app/blocked/page.tsx
 import BlockedAccessForm from "./blocked-access-form";
 import Link from "next/link";
 
@@ -30,18 +31,14 @@ export default function BlockedPage() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <p className="text-sm font-semibold text-zinc-100">
-                  Why am I blocked?
-                </p>
+                <p className="text-sm font-semibold text-zinc-100">Why am I blocked?</p>
                 <p className="mt-2 text-sm leading-6 text-zinc-300">
                   Access is limited by region (based on your network location).
                 </p>
               </div>
 
               <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
-                <p className="text-sm font-semibold text-zinc-100">
-                  Want access?
-                </p>
+                <p className="text-sm font-semibold text-zinc-100">Want access?</p>
                 <p className="mt-2 text-sm leading-6 text-zinc-300">
                   If you&apos;re a collaborator, client, or invited guest, request
                   access below.
