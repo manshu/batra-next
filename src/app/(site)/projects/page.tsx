@@ -236,9 +236,6 @@ export default function ProjectsPage() {
       <section id="apps" className="mt-10 sm:mt-14 scroll-mt-24">
         <div className="mb-4 flex items-end justify-between">
           <h2 className="text-lg font-semibold tracking-tight">Applications</h2>
-          <p className="text-xs text-zinc-400">
-            Put logos in <span className="font-mono">/public/images/projects</span>
-          </p>
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">
