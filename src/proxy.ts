@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const ALLOWED_COUNTRIES = new Set([
+  "US",
   "CA",
   "GB",
   "IN",
@@ -39,12 +40,12 @@ export function proxy(req: NextRequest) {
 
   // Block if unknown OR not in allowlist
   if (!country || !ALLOWED_COUNTRIES.has(country)) {
-    return new NextResponse("Access denied in your region.", { status: 403 });
+    // return new NextResponse("Access denied in your region.", { status: 403 });
 
     // Or redirect to a friendly page:
-    // const url = req.nextUrl.clone();
-    // url.pathname = "/blocked";
-    // return NextResponse.redirect(url);
+    const url = req.nextUrl.clone();
+    url.pathname = "/blocked";
+    return NextResponse.redirect(url);
   }
 
   return NextResponse.next();
