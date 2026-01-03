@@ -48,7 +48,6 @@ export default function HomePage() {
   return (
     <div className="min-h-dvh bg-zinc-950 text-zinc-50">
       {/* Top announcement (dismissible) */}
-      <AnnouncementBar />
 
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-white/5 bg-zinc-950/70 backdrop-blur">
@@ -61,6 +60,7 @@ export default function HomePage() {
           </Link>
           <SiteNav />
         </div>
+        <AnnouncementBar />
       </header>
 
       {/* Main */}
