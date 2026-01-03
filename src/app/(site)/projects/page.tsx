@@ -32,6 +32,24 @@ type OSSProject = {
 };
 
 const apps: AppProject[] = [
+    {
+    id: "peptides-calculator",
+    name: "Peptides Calculator",
+    subtitle: "Reconstitution Calculator",
+    description:
+      "A personal utility app to log, organize, and manage peptide preparation. Save vial records, keep notes, and calculate reconstitution details in a simple workflow.",
+    logoSrc: "/images/peptides-calculator.webp",
+    website: "https://www.peptidescalculator.app",
+    iosUrl: "https://apps.apple.com/us/app/peptides-calculator/id6744431355",
+    androidUrl: "https://www.peptidescalculator.app/app-release.apk",
+    badges: ["iPhone", "iPad", "Apple Watch", "Health & Fitness"],
+    highlights: [
+      "Reconstitution calculations",
+      "Vial records & logs",
+      "Reference library",
+      "Tracking & organization",
+    ],
+  },
   {
     id: "my-trt-app",
     name: "My TRT App",
@@ -50,24 +68,7 @@ const apps: AppProject[] = [
       "Lab tracking & trends",
     ],
   },
-  {
-    id: "peptides-calculator",
-    name: "Peptides Calculator",
-    subtitle: "Reconstitution Calculator",
-    description:
-      "A personal utility app to log, organize, and manage peptide preparation. Save vial records, keep notes, and calculate reconstitution details in a simple workflow.",
-    logoSrc: "/images/peptides-calculator.webp",
-    website: "https://www.peptidescalculator.app",
-    iosUrl: "https://apps.apple.com/us/app/peptides-calculator/id6744431355",
-    androidUrl: "https://www.peptidescalculator.app/app-release.apk",
-    badges: ["iPhone", "iPad", "Apple Watch", "Health & Fitness"],
-    highlights: [
-      "Reconstitution calculations",
-      "Vial records & logs",
-      "Reference library",
-      "Tracking & organization",
-    ],
-  },
+
 ];
 
 const openSource: OSSProject[] = [
