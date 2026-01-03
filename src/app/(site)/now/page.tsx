@@ -66,7 +66,6 @@ function Section({
   return (
     <section
       id={id}
-      className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8 scroll-mt-24"
     >
       <div className="flex items-baseline justify-between gap-4">
         <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
@@ -91,7 +90,6 @@ function PillList({ items }: { items: string[] }) {
           key={item}
           className="rounded-xl border border-white/10 bg-white/5 px-3 py-2"
         >
-          {item}
         </li>
       ))}
     </ul>

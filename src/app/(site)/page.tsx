@@ -4,37 +4,44 @@ import Link from "next/link";
 
 const quickLinks = [
   {
+    id: "about",
     title: "About me",
     href: "/about",
     description: "If you'd like to know more about me, head over to my page.",
   },
   {
+    id: "now",
     title: "Now",
     href: "/now",
     description: "See what's currently going on with me.",
   },
   {
+    id: "youtube",
     title: "YouTube",
     href: "/pups",
     description: "You might find my shenanigans live on YouTube sometimes.",
   },
   {
+    id: "meetup",
     title: "Meetup",
     href: "/meetup",
     description: "You're now able to join my live streams / meetup.",
   },
   {
+    id: "consulting",
     title: "Consulting",
     href: "/consulting",
     description: "I do hourly consultations in my free time. Book yours.",
     cta: { label: "Book", href: "/consulting" },
   },
   {
+    id: "astrology",
     title: "Astrology",
     href: "/astrology",
     description: "This might sound crazy, but I research about Vedic astrology.",
   },
   {
+    id: "blog",
     title: "Blog",
     href: "/blog",
     description: "Checkout my blog about Laravel, RoR, and random stuff.",
@@ -113,7 +120,7 @@ export default function HomePage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {quickLinks.map((item) => (
             <Link
-              key={item.href}
+              key={item.id}
               href={item.href}
               className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-white/20 hover:bg-white/[0.06]"
             >
