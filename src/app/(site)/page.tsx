@@ -18,7 +18,7 @@ const quickLinks = [
   {
     id: "youtube",
     title: "YouTube",
-    href: "/pups",
+    href: "https://www.youtube.com/@batraio",
     description: "You might find my shenanigans live on YouTube sometimes.",
   },
   {
@@ -37,7 +37,7 @@ const quickLinks = [
   {
     id: "astrology",
     title: "Astrology",
-    href: "/astrology",
+    href: "https://www.youtube.com/@batraio",
     description: "This might sound crazy, but I research about Vedic astrology.",
   },
   {
