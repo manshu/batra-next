@@ -16,7 +16,7 @@ export default function SiteNav() {
           <Link
             key={l.href}
             href={l.href}
-            className="rounded-lg px-3 py-2 text-sm text-zinc-300 hover:bg-white/5 hover:text-white"
+            className="rounded-lg px-3 py-2 text-lg text-zinc-300 hover:bg-white/5 hover:text-white"
           >
             {l.label}
           </Link>
