@@ -1,32 +1,32 @@
+// proxy.ts
 import { NextRequest, NextResponse } from "next/server";
 
-const ALLOWED_COUNTRIES = new Set([
-  "US",
-  "CA",
-  "GB",
-  "IN",
-]);
+const ALLOWED_COUNTRIES = new Set(["US", "CA", "GB", "IN"]);
 
 function getCountry(req: NextRequest): string | null {
-  // Vercel commonly provides:
   const vercel = req.headers.get("x-vercel-ip-country");
   if (vercel) return vercel;
 
-  // Cloudflare commonly provides:
   const cf = req.headers.get("cf-ipcountry");
   if (cf) return cf;
 
-  // Some runtimes also provide:
-  // @ts-expect-error - not always typed depending on runtime
+  // @ts-expect-error
   return req.geo?.country ?? null;
 }
 
-// Named export `proxy` is supported (or you can default export a function named proxy)
 export function proxy(req: NextRequest) {
+  const host = req.headers.get("host") || "";
+  const isLocal =
+    host.startsWith("localhost") ||
+    host.startsWith("127.0.0.1") ||
+    host.startsWith("0.0.0.0");
+
+  if (isLocal) return NextResponse.next();
+
   const { pathname } = req.nextUrl;
 
-  // Skip Next internals / common static files
   if (
+    pathname.startsWith("/blocked") ||
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon") ||
     pathname === "/robots.txt" ||
@@ -38,11 +38,7 @@ export function proxy(req: NextRequest) {
 
   const country = getCountry(req);
 
-  // Block if unknown OR not in allowlist
   if (!country || !ALLOWED_COUNTRIES.has(country)) {
-    // return new NextResponse("Access denied in your region.", { status: 403 });
-
-    // Or redirect to a friendly page:
     const url = req.nextUrl.clone();
     url.pathname = "/blocked";
     return NextResponse.redirect(url);
