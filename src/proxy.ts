@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const ALLOWED_COUNTRIES = new Set([
-  "US",
   "CA",
   "GB",
   "IN",
