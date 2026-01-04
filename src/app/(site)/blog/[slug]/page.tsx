@@ -8,8 +8,8 @@ export const runtime = "nodejs";
 export const revalidate = 60;
 
 type PostDoc = {
-  slug: string;
-  title: string;
+  slug?: string;
+  title?: string;
   excerpt?: string;
   tags?: string[];
   published?: boolean;
@@ -49,7 +49,7 @@ function renderPlaintextToParagraphs(text: string) {
   return (
     <div className="space-y-4">
       {blocks.map((b, idx) => (
-        <p key={idx} className="text-zinc-200 leading-7">
+        <p key={idx} className="leading-7 text-zinc-200">
           {b}
         </p>
       ))}
@@ -57,19 +57,26 @@ function renderPlaintextToParagraphs(text: string) {
   );
 }
 
-async function getPostBySlug(slug: string): Promise<{ id: string; data: PostDoc } | null> {
-  const q = await adminDb
-    .collection("posts")
-    .where("slug", "==", slug)
-    .limit(1)
-    .get();
+function normalizeSlug(raw: any): string {
+  if (typeof raw !== "string") return "";
+  try {
+    return decodeURIComponent(raw).trim();
+  } catch {
+    return raw.trim();
+  }
+}
 
+async function getPostBySlug(slug: string): Promise<{ id: string; data: PostDoc } | null> {
+  const s = (slug ?? "").toString().trim();
+  if (!s) return null;
+
+  const q = await adminDb.collection("posts").where("slug", "==", s).limit(1).get();
   if (!q.empty) {
     const doc = q.docs[0];
     return { id: doc.id, data: doc.data() as PostDoc };
   }
 
-  const byId = await adminDb.collection("posts").doc(slug).get();
+  const byId = await adminDb.collection("posts").doc(s).get();
   if (byId.exists) return { id: byId.id, data: byId.data() as PostDoc };
 
   return null;
@@ -78,14 +85,16 @@ async function getPostBySlug(slug: string): Promise<{ id: string; data: PostDoc 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug?: string }>;
 }): Promise<Metadata> {
-  const result = await getPostBySlug(params.slug);
-  if (!result) {
-    return { title: "Post not found" };
-  }
-  const post = result.data;
+  const p = await params;
+  const slug = normalizeSlug(p?.slug);
+  if (!slug) return { title: "Post not found" };
 
+  const result = await getPostBySlug(slug);
+  if (!result) return { title: "Post not found" };
+
+  const post = result.data;
   return {
     title: post.title || "Blog post",
     description: post.excerpt || "Blog post",
@@ -95,13 +104,16 @@ export async function generateMetadata({
 export default async function BlogPostPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug?: string }>;
 }) {
-  const result = await getPostBySlug(params.slug);
+  const p = await params;
+  const slug = normalizeSlug(p?.slug);
+  if (!slug) notFound();
+
+  const result = await getPostBySlug(slug);
   if (!result) notFound();
 
   const post = result.data;
-
   if (post.published === false) notFound();
 
   const publishedAt = toISODate(post.publishedAt);
@@ -138,9 +150,9 @@ export default async function BlogPostPage({
         <div className="pointer-events-none absolute -top-24 right-0 h-72 w-72 rounded-full bg-amber-400/10 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 left-0 h-72 w-72 rounded-full bg-indigo-400/10 blur-3xl" />
 
-        <header className="relative">
+        <header>
           <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-            {post.title}
+            {post.title || "Untitled"}
           </h1>
 
           {post.excerpt ? (
@@ -163,21 +175,16 @@ export default async function BlogPostPage({
           ) : null}
         </header>
 
-        <div className="relative mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
+        <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
           {content ? (
             renderPlaintextToParagraphs(content)
           ) : (
             <p className="text-sm text-zinc-300">
-              No content yet. Add a <span className="font-mono text-zinc-200">content</span>{" "}
-              field in Firestore (plain text with blank lines between paragraphs).
+              No content yet. Add a <span className="font-mono text-zinc-200">content</span> field in Firestore.
             </p>
           )}
         </div>
       </article>
-
-      <footer className="mt-10 border-t border-white/5 pt-8 text-sm text-zinc-400">
-        <p>© {new Date().getFullYear()} Himanshu Batra</p>
-      </footer>
     </main>
   );
 }

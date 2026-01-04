@@ -19,7 +19,6 @@ type Post = {
   tags?: string[];
   publishedAt?: string;
   updatedAt?: string;
-  coverImage?: string;
 };
 
 function toISODate(input: any): string | undefined {
@@ -33,11 +32,7 @@ function toISODate(input: any): string | undefined {
 function formatDate(iso?: string) {
   if (!iso) return "";
   const d = new Date(iso);
-  return d.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-  });
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" });
 }
 
 function safeArray(value: any): string[] {
@@ -49,6 +44,10 @@ function clampText(s: any, n: number) {
   return str.length > n ? str.slice(0, n) : str;
 }
 
+function normSlug(v: any): string {
+  return (v ?? "").toString().trim();
+}
+
 async function getPosts(): Promise<Post[]> {
   const snap = await adminDb
     .collection("posts")
@@ -57,22 +56,23 @@ async function getPosts(): Promise<Post[]> {
     .limit(50)
     .get();
 
-  return snap.docs.map((doc) => {
-    const data = doc.data() as any;
-    const slug = (data.slug || doc.id || "").toString();
-    const title = (data.title || "Untitled").toString();
+  return snap.docs
+    .map((doc) => {
+      const data = doc.data() as any;
+      const slug = normSlug(data.slug || doc.id);
+      const title = (data.title || "Untitled").toString();
 
-    return {
-      id: doc.id,
-      slug,
-      title,
-      excerpt: clampText(data.excerpt || data.summary || "", 220),
-      tags: safeArray(data.tags),
-      publishedAt: toISODate(data.publishedAt),
-      updatedAt: toISODate(data.updatedAt),
-      coverImage: data.coverImage ? String(data.coverImage) : undefined,
-    };
-  });
+      return {
+        id: doc.id,
+        slug,
+        title,
+        excerpt: clampText(data.excerpt || data.summary || "", 220),
+        tags: safeArray(data.tags),
+        publishedAt: toISODate(data.publishedAt),
+        updatedAt: toISODate(data.updatedAt),
+      };
+    })
+    .filter((p) => p.slug.length > 0);
 }
 
 function Tag({ children }: { children: React.ReactNode }) {
@@ -104,8 +104,7 @@ export default async function BlogIndexPage() {
           </h1>
 
           <p className="max-w-2xl text-pretty text-sm leading-6 text-zinc-300 sm:text-base">
-            Notes from building products, engineering, consulting, and whatever I’m
-            currently obsessed with.
+            Notes from building products, engineering, consulting, and whatever I’m currently obsessed with.
           </p>
 
           <div className="flex flex-wrap gap-3">
@@ -183,10 +182,6 @@ export default async function BlogIndexPage() {
           </div>
         )}
       </section>
-
-      <footer className="mt-12 border-t border-white/5 pt-8 text-sm text-zinc-400">
-        <p>© {new Date().getFullYear()} Himanshu Batra</p>
-      </footer>
     </main>
   );
 }
