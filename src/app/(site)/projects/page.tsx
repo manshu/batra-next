@@ -59,7 +59,7 @@ const apps: AppProject[] = [
     logoSrc: "/images/my-trt-app.png",
     website: "https://www.mytrt.app",
     iosUrl: "https://apps.apple.com/us/app/my-trt-app/id6745529127",
-    androidUrl: "",
+    androidUrl: "https://play.google.com/store/apps/details?id=com.batra.mytrtapp",
     badges: ["iPhone", "iPad", "Health & Fitness"],
     highlights: [
       "Shot logs",
