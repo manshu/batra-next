@@ -41,7 +41,7 @@ const apps: AppProject[] = [
     logoSrc: "/images/peptides-calculator.webp",
     website: "https://www.peptidescalculator.app",
     iosUrl: "https://apps.apple.com/us/app/peptides-calculator/id6744431355",
-    androidUrl: "https://www.peptidescalculator.app/app-release.apk",
+    androidUrl: "https://play.google.com/store/apps/details?id=com.batra.peptidescalculator",
     badges: ["iPhone", "iPad", "Apple Watch", "Health & Fitness"],
     highlights: [
       "Reconstitution calculations",
